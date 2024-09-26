@@ -18,7 +18,7 @@ class ProductCatalog:
     def display_products(self, category=None):
         return self.catalog[category] if category else [item for items in self.catalog.values() for item in items]
 db = ProductCatalog()
-db.add_product('Electronics', 1, 'Smartphone', 'High-end smartphone', 699.99)
+db.add_product('Electronics', 1, 'Smartphone', 'High-end smartphone', 699.99)  #example
 db.add_product('Electronics', 2, 'Laptop', 'Work and play laptop', 1199.99)
 db.add_product('Home Appliances', 3, 'Blender', 'High-speed blender', 49.99)
 
