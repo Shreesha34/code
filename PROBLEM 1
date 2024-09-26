@@ -1,5 +1,5 @@
 # code
-PROBLEM 1
+
 class Delta:
     def __init__(self, position, old_text, new_text):
         self.position = position
