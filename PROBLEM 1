@@ -29,8 +29,8 @@ deltas = [
 
 file_versioning = FileVersioning(base_version, deltas)
 try:
-    print(file_versioning.get_file_version(1))  # Output: "Hello, Python!"
-    print(file_versioning.get_file_version(2))  # Output: "Hi, Python!"
+    print(file_versioning.get_file_version(1))  
+    print(file_versioning.get_file_version(2))  
 except ValueError as e:
     print(e)
 
