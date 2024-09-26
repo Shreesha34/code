@@ -1,0 +1,50 @@
+import os
+import re
+import heapq
+from collections import defaultdict
+from difflib import get_close_matches
+
+def read_in_chunks(file_path, chunk_size=1024*1024):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        while True:
+            chunk = file.read(chunk_size)
+            if not chunk:
+                break
+            yield chunk
+
+def process_chunk(chunk, word_count):
+    words = re.findall(r'\b\w+\b', chunk.lower())
+    for word in words:
+        word_count[word] += 1
+
+def count_words(file_path):
+    word_count = defaultdict(int)
+    for chunk in read_in_chunks(file_path):
+        process_chunk(chunk, word_count)
+    return word_count
+
+def sort_word_count(word_count):
+    return heapq.nlargest(len(word_count), word_count.items(), key=lambda x: x[1])
+
+def fuzzy_search(word, word_count, cutoff=0.8):
+    matches = get_close_matches(word, word_count.keys(), n=1, cutoff=cutoff)
+    return matches[0] if matches else None
+
+def main(file_path):
+    word_count = count_words(file_path)
+    sorted_word_count = sort_word_count(word_count)
+    
+    print("Word Count (sorted):")
+    for word, count in sorted_word_count:
+        print(f"{word}: {count}")
+    
+    search_word = "example"
+    corrected_word = fuzzy_search(search_word, word_count)
+    if corrected_word:
+        print(f"Did you mean '{corrected_word}' instead of '{search_word}'?")
+    else:
+        print(f"No close match found for '{search_word}'.")
+
+if __name__ == "__main__":
+    file_path = "large_text_file.txt"  
+    main(file_path)
