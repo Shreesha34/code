@@ -1,0 +1,27 @@
+from collections import defaultdict
+class ProductCatalog:
+    def __init__(self):
+        self.catalog = defaultdict(list)
+
+    def add_product(self, category, product_id, name, description, price):
+        self.catalog[category].append({
+            'id': product_id,
+            'name': name,
+            'description': description,
+            'price': price
+        })
+
+    def search_products(self, query):
+        return [item for items in self.catalog.values() for item in items
+                if query.lower() in item['name'].lower() or query.lower() in item['description'].lower()]
+
+    def display_products(self, category=None):
+        return self.catalog[category] if category else [item for items in self.catalog.values() for item in items]
+db = ProductCatalog()
+db.add_product('Electronics', 1, 'Smartphone', 'High-end smartphone', 699.99)
+db.add_product('Electronics', 2, 'Laptop', 'Work and play laptop', 1199.99)
+db.add_product('Home Appliances', 3, 'Blender', 'High-speed blender', 49.99)
+
+print("All products:", db.display_products())
+print("\nSearch results for 'laptop':", db.search_products('laptop'))
+print("\nProducts in 'Electronics':", db.display_products('Electronics'))
